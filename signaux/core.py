@@ -53,7 +53,7 @@ class Signaux(object):
         else:
             self.data_path = os.getcwd()
         
-        self.all_parameters = ['generator', 'type', 'frequency', 'start', 'end', 'population_unit_correlation', 
+        self.all_parameters = ['generator', 'type', 'frequency', 'start', 'end', 'correlation', 
                               'jitter', 'conductance', 'mod_file', 'parameter_file', 'num_inputs']
         
         self.sigma_map = {'proto':0.7, 'STN': 0.7, 'SNr': 0.6}

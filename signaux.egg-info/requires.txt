@@ -1,0 +1,7 @@
+elephant @ git+https://github.com/NeuralEnsemble/elephant.git
+matplotlib>=3.8.2
+neo>=0.14.0
+numpy==1.26.4
+quantities>=0.16.1
+ray>=2.24.0
+seaborn>=0.13.2

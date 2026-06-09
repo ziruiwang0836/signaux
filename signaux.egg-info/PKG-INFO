@@ -1,0 +1,22 @@
+Metadata-Version: 2.4
+Name: signaux
+Version: 0.1.0
+Author-email: "W.S. Thompson" <scottwilliamthompson@gmail.com>
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+Requires-Dist: elephant @ git+https://github.com/NeuralEnsemble/elephant.git
+Requires-Dist: matplotlib>=3.8.2
+Requires-Dist: neo>=0.14.0
+Requires-Dist: numpy==1.26.4
+Requires-Dist: quantities>=0.16.1
+Requires-Dist: ray>=2.24.0
+Requires-Dist: seaborn>=0.13.2
+
+# Signaux
+
+This is an add-on for Snudda (https://github.com/Hjorthmedh/Snudda) that allows more flexible specification of inputs.  
+
+### Usage
+
+Signaux should be used once a network has been created and synapses detected/pruned, but before calling SnuddaInput. 
+Signaux can either create new spike trains, or sample existing ones. 

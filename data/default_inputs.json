@@ -1,1 +1,62 @@
-{"dSPN" : {        "generator" : "poisson",        "type" : "GABA",        "synapse_density" : "1-0.98*(exp(-(0.9*d/50e-6)**2))",        "frequency" : 0.6,        "population_unit_correlation" : 0.1,        "jitter" : 0.001,        "conductance" : 100e-12,        "mod_file": "tmGabaA",        "parameter_file": "$SNUDDA_DATA/input_config/lateral_dSPN_synapse.json",        "n_presynaptic" : 150    },    "M1" : {        "generator" : "poisson",        "type" : "AMPA_NMDA",        "synapse_density" : "0.1 + 0.9*exp(-((d - 100e-6)/100e-6)**2)",        "frequency" : 5,        "population_unit_correlation" : 0.1,        "jitter" : 0.000,        "conductance" : 150e-12,        "mod_file": "tmGlut_double",        "parameter_file": "$SNUDDA_DATA/input_config/M1_synapse.json",        "n_presynaptic" : 10     },    "proto" : {        "generator" : "poisson",        "type" : "GABA",        "synapse_density" : "exp(-(0.7*d/20e-6)**2)",        "frequency" : 50,        "population_unit_correlation" : 0.1,        "jitter" : 0.00,        "conductance" : 1200e-12,        "mod_file": "tmGabaA",        "parameter_file": "$SNUDDA_DATA/input_config/proto_synapse.json",        "n_presynaptic" : 12,        "p_soma_synapses": 1     },    "STN" : {        "generator" : "poisson",        "type" : "AMPA_NMDA",        "synapse_density" : "0.1 + 0.9*exp(-((d - 100e-6)/100e-6)**2)",        "frequency" : 5,        "population_unit_correlation" : 0.1,        "jitter" : 0.000,        "conductance" : 200e-12,        "mod_file": "tmGlut_double",        "parameter_file": "$SNUDDA_DATA/input_config/STN_synapse.json",        "n_presynaptic" : 15     },    "SNr" :{       "generator" : "poisson",       "synapse_density" : "exp(-((0.8*d - 50e-6)/50e-6)**2)",       "type" : "GABA",       "frequency" : 25,       "population_unit_correlation" : 0.1,       "jitter" : 0.001,       "conductance" : 150e-12,       "mod_file": "tmGabaA",       "parameter_file": "$SNUDDA_DATA/input_config/intra_synapse.json",       "n_presynaptic" : 10   }}
+{"dSPN" : {
+        "generator" : "poisson",
+        "type" : "GABA",
+        "synapse_density" : "1-0.98*(exp(-(0.9*d/50e-6)**2))",
+        "frequency" : 0.6,
+        "correlation" : 0.1,
+        "jitter" : 0.001,
+        "conductance" : 100e-12,
+        "mod_file": "tmGabaA",
+        "parameter_file": "$SNUDDA_DATA/input_config/lateral_dSPN_synapse.json",
+        "n_presynaptic" : 150
+    },
+    "M1" : {
+        "generator" : "poisson",
+        "type" : "AMPA_NMDA",
+        "synapse_density" : "0.1 + 0.9*exp(-((d - 100e-6)/100e-6)**2)",
+        "frequency" : 5,
+        "correlation" : 0.1,
+        "jitter" : 0.000,
+        "conductance" : 150e-12,
+        "mod_file": "tmGlut_double",
+        "parameter_file": "$SNUDDA_DATA/input_config/M1_synapse.json",
+        "n_presynaptic" : 10
+     },
+    "proto" : {
+        "generator" : "poisson",
+        "type" : "GABA",
+        "synapse_density" : "exp(-(0.7*d/20e-6)**2)",
+        "frequency" : 50,
+        "correlation" : 0.1,
+        "jitter" : 0.00,
+        "conductance" : 1200e-12,
+        "mod_file": "tmGabaA",
+        "parameter_file": "$SNUDDA_DATA/input_config/proto_synapse.json",
+        "n_presynaptic" : 12,
+        "p_soma_synapses": 1
+     },
+    "STN" : {
+        "generator" : "poisson",
+        "type" : "AMPA_NMDA",
+        "synapse_density" : "0.1 + 0.9*exp(-((d - 100e-6)/100e-6)**2)",
+        "frequency" : 5,
+        "correlation" : 0.1,
+        "jitter" : 0.000,
+        "conductance" : 200e-12,
+        "mod_file": "tmGlut_double",
+        "parameter_file": "$SNUDDA_DATA/input_config/STN_synapse.json",
+        "n_presynaptic" : 15
+     },
+    "SNr" :{
+       "generator" : "poisson",
+       "synapse_density" : "exp(-((0.8*d - 50e-6)/50e-6)**2)",
+       "type" : "GABA",
+       "frequency" : 25,
+       "correlation" : 0.1,
+       "jitter" : 0.001,
+       "conductance" : 150e-12,
+       "mod_file": "tmGabaA",
+       "parameter_file": "$SNUDDA_DATA/input_config/intra_synapse.json",
+       "n_presynaptic" : 10
+   }
+}

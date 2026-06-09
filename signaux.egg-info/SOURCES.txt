@@ -1,0 +1,12 @@
+README.md
+pyproject.toml
+signaux/__init__.py
+signaux/core.py
+signaux/npencoder.py
+signaux/visualise.py
+signaux.egg-info/PKG-INFO
+signaux.egg-info/SOURCES.txt
+signaux.egg-info/dependency_links.txt
+signaux.egg-info/requires.txt
+signaux.egg-info/top_level.txt
+tests/test.py
