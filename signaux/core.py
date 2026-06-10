@@ -237,9 +237,14 @@ class Signaux(object):
             except OSError as e:
                 raise OSError(f"Failed to create directory: {e}")
 
-
-        assert ('num_inputs' in list(self.inputs[i].keys())) and ('frequency' in list(self.inputs[i].keys())), 'number of inputs or frequency not specified!'
-        n_inputs = self.inputs[i]['num_inputs'] 
+        if 'num_inputs' in list(self.inputs[i].keys()):
+            n_inputs = self.inputs[i]['num_inputs']
+            assert ('num_inputs' in list(self.inputs[i].keys())) and ('frequency' in list(self.inputs[i].keys())), 'number of inputs or frequency not specified!' 
+            if isinstance(n_inputs, list):
+                rng_num_inputs = self.rng
+                num_inputs = max(1, int(rng_num_inputs.normal(n_inputs[0], n_inputs[1])))
+            else:
+                num_inputs = int(n_inputs)
         
         if 'n_presynaptic' in list(self.inputs[i].keys()):
             self.n_presynaptic = self.inputs[i]['n_presynaptic']
@@ -307,7 +312,8 @@ class Signaux(object):
                         'bursts': bursts,
                         'network_path': self.network_path,
                         'start': start, 
-                        'end': end
+                        'end': end,
+                        "num_inputs": num_inputs
                     }
                     postsynaptic_configs.append(input_config)
                 self.tasks = postsynaptic_configs
@@ -336,12 +342,12 @@ class Signaux(object):
                                     frequency = freq,
                                     n_presynaptic = n_pre, 
                                     sigma = sigma, variability = variability, 
-                                    pauses = pauses, bursts = bursts, start = start, end = end)
+                                    pauses = pauses, bursts = bursts, start = start, end = end, num_inputs = num_inputs)
                     self.total_trains[str(n)][i] = train
         return
     
     def generate_csv(self, input_type = None, postsynaptic = None, frequency = None, n_presynaptic = None, sigma = 0.6, variability = 1, 
-                    pauses = None, bursts = None, jitter = 0.02, start= 0, end = 5, config = None):
+                    pauses = None, bursts = None, jitter = 0.02, start= 0, end = 5, num_inputs = None, config = None):
     
         """
         Generate csv files with spike trains
@@ -358,6 +364,7 @@ class Signaux(object):
             bursts = config.get('bursts')
             start = config.get('start')
             end = config.get('end')
+            num_inputs = config.get('num_inputs')
 
         rng = np.random.default_rng()
         file_name = os.path.join(self.network_path, 'input_csvs', f"{input_type}_{postsynaptic}_input.csv")
@@ -414,7 +421,8 @@ class Signaux(object):
                 os.makedirs(os.path.join(self.network_path, 'input_csvs'), exist_ok = True)
                 with open(file_name, 'w+', newline = '') as csvfile:
                     writer = csv.writer(csvfile, delimiter = ',')
-                    writer.writerows([st])
+                    csv_spikes = [st.copy() for _ in range(num_inputs)]
+                    writer.writerows(csv_spikes)
             except PermissionError:
                 raise PermissionError(f"Cannot write to {file_name}. Check write permissions.")
             except IOError as e:
