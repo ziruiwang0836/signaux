@@ -536,6 +536,7 @@ class Signaux(object):
     
     def process_neuron_parallel(self, neurons, inputs):
         
+        self.inputs = inputs
         self.output = {}
         signals = []
         for n in neurons:
