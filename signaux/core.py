@@ -404,7 +404,7 @@ class Signaux(object):
                     proportion = pause[2]
                 else:
                     proportion = 1
-                i = rng.integers()(0, n_presynaptic-1)
+                i = rng.integers(0, n_presynaptic-1)
                 if i in range(int(np.rint(n_presynaptic*proportion))):
                     st = [t for t in st if (t < pause[0]) | (t > pause[1])] 
 
