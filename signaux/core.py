@@ -241,10 +241,18 @@ class Signaux(object):
             n_inputs = self.inputs[i]['num_inputs']
             assert ('num_inputs' in list(self.inputs[i].keys())) and ('frequency' in list(self.inputs[i].keys())), 'number of inputs or frequency not specified!' 
             if isinstance(n_inputs, list):
-                rng_num_inputs = self.rng
+                rng_num_inputs = np.random.default_rng()
                 num_inputs = max(1, int(rng_num_inputs.normal(n_inputs[0], n_inputs[1])))
             else:
                 num_inputs = int(n_inputs)
+            self.inputs[i]["num_inputs_real"] = num_inputs
+
+        if 'p_soma_synapses' in list(self.inputs[i].keys()):
+            p_soma_synapses = self.inputs[i]['p_soma_synapses']
+            n_soma_synapses = int(np.rint(p_soma_synapses * num_inputs))
+            n_soma_synapses = min(n_soma_synapses, num_inputs)
+
+            self.inputs[i]["num_soma_synapses"] = n_soma_synapses
         
         if 'n_presynaptic' in list(self.inputs[i].keys()):
             self.n_presynaptic = self.inputs[i]['n_presynaptic']
