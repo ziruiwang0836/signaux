@@ -146,7 +146,7 @@ class Signaux(object):
                     if j in list(self.defaults.keys()):
                         if 'n_presynaptic' in i[j].keys():
                             if isinstance(i[j]['n_presynaptic'], list):
-                                n_presynaptic = np.random.normal(loc = i[j]['n_presynaptic'][0], scale = i[j]['n_presynaptic'][1])
+                                n_presynaptic = self.rng.normal(loc = i[j]['n_presynaptic'][0], scale = i[j]['n_presynaptic'][1])
                             else:
                                 n_presynaptic = i[j]['n_presynaptic']
                             for k in range(0, int(n_presynaptic)):
@@ -158,7 +158,7 @@ class Signaux(object):
                     elif j.split('_')[0] in self.defaults:
                         if 'n_presynaptic' in i[j].keys():
                             if isinstance(i[j]['n_presynaptic'], list):
-                                n_presynaptic = np.random.normal(loc = i[j]['n_presynaptic'][0], scale = i[j]['n_presynaptic'][1])
+                                n_presynaptic = self.rng.normal(loc = i[j]['n_presynaptic'][0], scale = i[j]['n_presynaptic'][1])
                             else:
                                 n_presynaptic = i[j]['n_presynaptic']
                             for k in range(0, int(n_presynaptic)):
@@ -241,8 +241,7 @@ class Signaux(object):
             n_inputs = self.inputs[i]['num_inputs']
             assert ('num_inputs' in list(self.inputs[i].keys())) and ('frequency' in list(self.inputs[i].keys())), 'number of inputs or frequency not specified!' 
             if isinstance(n_inputs, list):
-                rng_num_inputs = np.random.default_rng()
-                num_inputs = max(1, int(rng_num_inputs.normal(n_inputs[0], n_inputs[1])))
+                num_inputs = max(1, int(self.rng.normal(n_inputs[0], n_inputs[1])))
             else:
                 num_inputs = int(n_inputs)
             self.inputs[i]["num_inputs_real"] = num_inputs
@@ -374,13 +373,12 @@ class Signaux(object):
             end = config.get('end')
             num_inputs = config.get('num_inputs')
 
-        rng = np.random.default_rng()
         file_name = os.path.join(self.network_path, 'input_csvs', f"{input_type}_{postsynaptic}_input.csv")
         
         start = start*s
         end = end*s
 
-        f = np.abs(rng.normal(loc = frequency, scale = variability))
+        f = np.abs(self.rng.normal(loc = frequency, scale = variability))
         st = list(SLNP(rate = f*Hz, sigma = sigma, t_start = start, t_stop = end).generate_spiketrain().magnitude.flatten())
        
         while len(st) < 1:          ##dirty fix to ensure there is always a spike
@@ -396,12 +394,12 @@ class Signaux(object):
                     
                 else:
                     proportion = 1  ## 100% of presynaptic bursting if not otherwise specified
-                i = rng.integers(0, n_presynaptic-1)
+                i = self.rng.integers(0, n_presynaptic-1)
                 if i <  int(np.rint(n_presynaptic * proportion)):
                     
-                    burst_jitter_a, burst_jitter_b = rng.uniform(-jitter, jitter, size = 2)
+                    burst_jitter_a, burst_jitter_b = self.rng.uniform(-jitter, jitter, size = 2)
                     
-                    f = np.abs(rng.normal(loc = burst[2], scale = variability))
+                    f = np.abs(self.rng.normal(loc = burst[2], scale = variability))
                     burst_train = list(SLNP(rate = f*Hz, sigma = sigma, 
                                            t_start = (burst[0] + burst_jitter_a)*s,                                                   
                                            t_stop = (burst[1] + burst_jitter_b)*s).generate_spiketrain().magnitude.flatten())
@@ -419,7 +417,7 @@ class Signaux(object):
                     proportion = pause[2]
                 else:
                     proportion = 1
-                i = rng.integers(0, n_presynaptic-1)
+                i = self.rng.integers(0, n_presynaptic-1)
                 if i in range(int(np.rint(n_presynaptic*proportion))):
                     st = [t for t in st if (t < pause[0]) | (t > pause[1])] 
 
@@ -615,14 +613,14 @@ class Signaux(object):
             cell_spikes = self.total_spikes[str(n)]
             for k in cell_spikes.keys():
                 if input_type in k:
-                    if np.random.default_rng().uniform() < proportion:
+                    if self.rng.uniform() < proportion:
                         
                         burst_jitter_a, burst_jitter_b = self.rng.uniform(-jitter, jitter, size = 2)
 
                         pre_spikes = cell_spikes[k]
                         start = start + burst_jitter_a
                         end = end + burst_jitter_b
-                        f = np.abs(np.random.default_rng().normal(loc = frequency, scale  = variability))
+                        f = np.abs(self.rng.normal(loc = frequency, scale  = variability))
                         burst_train = list(SLNP(rate = f*Hz, sigma = sigma, t_start = (start)*s,t_stop = (end)*s).generate_spiketrain().magnitude.flatten())
                         kept_spikes = [spike for spike in pre_spikes[0] if (spike < start) | (spike > end)]
                         kept_spikes +=  burst_train
