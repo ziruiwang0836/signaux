@@ -1,4 +1,3 @@
-README.md
 pyproject.toml
 signaux/__init__.py
 signaux/core.py
