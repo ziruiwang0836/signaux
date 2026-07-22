@@ -244,7 +244,7 @@ class Signaux(object):
                 num_inputs = max(1, int(self.rng.normal(n_inputs[0], n_inputs[1])))
             else:
                 num_inputs = int(n_inputs)
-            self.inputs[i]["num_inputs_real"] = num_inputs
+            self.inputs[i]["num_inputs"] = num_inputs
 
         if 'p_soma_synapses' in list(self.inputs[i].keys()):
             p_soma_synapses = self.inputs[i]['p_soma_synapses']
